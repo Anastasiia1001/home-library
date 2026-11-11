@@ -18,3 +18,12 @@ Workflow `.github/workflows/pages.yml` публікує вміст `dist/` пі�
 Одноразово відкрийте Settings → Pages → Build and deployment → Source → GitHub Actions. Після цього запустіть Actions → Publish home library → Run workflow або надішліть новий commit у main.
 
 Адреса Pages: https://anastasiia1001.github.io/home-library/ . Дані з попередньої адреси Sites не переносяться автоматично: експортуйте бібліотеку на старому сайті та відновіть копію на новому.
+
+## Застосунок для MacBook
+Збірки для Apple Silicon (arm64, M1 і новіші) та Intel (x64) створює workflow **Build macOS application** після змін коду в main. Готові DMG та ZIP доступні в артефакті Home-Library-macOS відповідного запуску Actions.
+
+Встановлення: відкрийте DMG, перенесіть «Домашня бібліотека» у Applications. Збірка не підписана й не нотаризована Apple; якщо macOS блокує перше відкриття, скористайтесь System Settings → Privacy & Security → Open Anyway лише для завантаженої тут збірки. Не вимикайте Gatekeeper.
+
+Потрібна macOS 12 або новіша. Для локальної розробки: `npm ci`, потім `npm run desktop`. Для створення інсталяторів на Mac: `npm run build:mac`.
+
+Книги й обкладинки зберігаються в профілі застосунку (Electron userData, IndexedDB), незалежно від браузерної версії. Для перенесення експортуйте JSON на сайті та відновіть його в застосунку. Звичайне оновлення .app зберігає профіль. Без інтернету працює колекція, редагування, пошук у власних книгах і резервні копії; зовнішні метадані потребують мережі.

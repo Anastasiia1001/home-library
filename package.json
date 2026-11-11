@@ -1,0 +1,32 @@
+{
+  "name": "home-library",
+  "productName": "Домашня бібліотека",
+  "version": "0.1.0",
+  "description": "Особистий книжковий альбом, цитати та книжкові цикли",
+  "author": "Anastasiia1001",
+  "private": true,
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "desktop": "electron .",
+    "build:mac": "electron-builder --mac dmg zip --arm64 --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "45.3.0",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "com.anastasiia1001.home-library",
+    "productName": "Домашня бібліотека",
+    "directories": { "output": "release" },
+    "files": ["desktop/**/*", "dist/**/*", "package.json"],
+    "artifactName": "Home-Library-${version}-${arch}.${ext}",
+    "mac": {
+      "category": "public.app-category.books",
+      "icon": "build/icon.png",
+      "identity": null,
+      "minimumSystemVersion": "12.0.0",
+      "target": ["dmg", "zip"]
+    },
+    "dmg": { "title": "Домашня бібліотека", "sign": false }
+  }
+}

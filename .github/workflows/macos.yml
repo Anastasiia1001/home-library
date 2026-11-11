@@ -1,0 +1,45 @@
+name: Build macOS application
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'dist/**'
+      - 'desktop/**'
+      - 'build/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/macos.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: macos-build-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Check application code
+        run: |
+          node --check desktop/main.cjs
+          for file in dist/*.js; do node --check "$file"; done
+      - name: Package Apple Silicon and Intel installers
+        run: npm run build:mac
+      - name: Upload installers
+        uses: actions/upload-artifact@v4
+        with:
+          name: Home-Library-macOS
+          path: |
+            release/*.dmg
+            release/*.zip
+          if-no-files-found: error
+          retention-days: 90
