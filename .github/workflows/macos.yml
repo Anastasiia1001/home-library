@@ -36,6 +36,8 @@ jobs:
         run: npm run build:mac
       - name: Launch packaged Apple Silicon application
         run: '"release/mac-arm64/Домашня бібліотека.app/Contents/MacOS/Домашня бібліотека" --smoke-test'
+      - name: Verify final DMG, installed copy and extracted ZIP
+        run: bash desktop/verify-installers.sh
       - name: Upload installers
         uses: actions/upload-artifact@v4
         with:
@@ -43,5 +45,6 @@ jobs:
           path: |
             release/*.dmg
             release/*.zip
+            release/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 90
