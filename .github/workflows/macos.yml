@@ -34,6 +34,8 @@ jobs:
           for file in dist/*.js; do node --check "$file"; done
       - name: Package Apple Silicon and Intel installers
         run: npm run build:mac
+      - name: Launch packaged Apple Silicon application
+        run: '"release/mac-arm64/Домашня бібліотека.app/Contents/MacOS/Домашня бібліотека" --smoke-test'
       - name: Upload installers
         uses: actions/upload-artifact@v4
         with:
